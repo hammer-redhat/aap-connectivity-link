@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-service-route
+  namespace: aap-24-dr # The namespace where your application service runs
+spec:
+  parentRefs:
+    - name: default # Name of the Gateway you created
+      namespace: istio-system # Namespace of the Gateway
+  hostnames:
+    - "controller-edb-02-aap-24-dr.apps.hammer-sno-dr.arsalan.io" # The hostname for your service
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix # Or Exact, etc.
+            value: /api/v2 # The specific endpoint to rate limit
+      backendRefs:
+        - name: controller-edb-02-service.aap-24-dr.svc.cluster.local # The Kubernetes service name of your app
+          port: 8052 # The port your service listens on

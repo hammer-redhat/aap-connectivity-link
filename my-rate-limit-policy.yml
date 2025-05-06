@@ -1,0 +1,25 @@
+apiVersion: kuadrant.io/v1 # Check the Kuadrant documentation for the correct API version
+kind: RateLimitPolicy
+metadata:
+  name: my-service-ratelimit
+  namespace: aap-24-dr # Can be in the same namespace as the HTTPRoute or the Gateway
+spec:
+  targetRef: # Points to the HTTPRoute or Gateway
+    group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: my-service-route  # Name of your HTTPRoute
+    # Alternatively, target the Gateway to apply to all its routes if needed
+    # namespace: istio-system # If targeting a Gateway in another namespace
+  limits:
+    my-limit-config: # A unique name for this specific limit configuration
+      rates:
+        - limit: 5 # Number of requests
+          duration: 60 # In seconds (e.g., 10 requests per 60 seconds)
+          window: 1m
+      # You can add conditions based on headers, methods, etc.,
+      # and define multiple named limit configurations.
+      # Example:
+      # when:
+      #   - selector:
+      #       matchLabels:
+      #         "http.method": "POST"

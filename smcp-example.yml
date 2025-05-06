@@ -1,0 +1,7 @@
+apiVersion: sailoperator.io/v1 # Or the specific version your Sail Operator uses
+kind: Istio
+metadata:
+  name: default # Or your desired name for the Istio instance
+  namespace: istio-system # Or the namespace where you want the control plane
+spec:
+  version: v1.24-latest # Specify the Istio version supported by your Sail Operator

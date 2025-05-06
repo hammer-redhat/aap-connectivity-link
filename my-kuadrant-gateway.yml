@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-application-gateway # Or any name you prefer
+  namespace: istio-system # Or the namespace where your Istio ingress gateway service runs
+spec:
+  gatewayClassName: istio # This should match the GatewayClass provided by your Istio (Sail Operator) installation
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All # Or specific namespaces where your HTTPRoutes will be
